@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-
-
+#include <ctype.h>
 
 int randNum;
 int *PrandNum = &randNum;
 
 int num;
-int totalGuess = 0;
+int totalGuess = 1;
 
 void randNumGen(int maxVal)
 {
@@ -19,26 +18,38 @@ void randNumGen(int maxVal)
 void randNumGuess()
 {
     
-    while (totalGuess < 5)
+    while (totalGuess < 6)
     {
+        // char input[10];
+        
         printf("enter a number between 1 and 10: ");
-        scanf("%d", &num);
+
+        if(scanf("%d", &num) != 1)
+        {
+            printf("invalid number.Try again!");
+        
+            while (getchar() != '\n');
+            continue;
+        }
+
 
         if (num > 10 || num <= 0)
         {
             printf("Please enter a number between 1 and 10.\n");
+            continue;
 
         }else if (num == randNum)
         {
-            printf("you've guessed the correct number!\n");
-            // playerWon = true;
-            break;
+        printf("you've guessed the correct number!\n");
+        // playerWon = true;
+        break;
 
         }else
         {
             printf("You lost!\n");  
             totalGuess++;
         }
+     
     }
 }
 
@@ -47,11 +58,12 @@ int main()
 {
     
     randNumGen(10);
-    printf("randNum: %d", randNum);
+    printf("randNum: %d\n", randNum);
 
     randNumGuess();
 
-    printf("The correct number is: %d\n", randNum);
+    printf("The correct number is: %d\n\n", randNum);
+    printf("total guess required: %d\n", totalGuess);
 
     return 0;
 }
